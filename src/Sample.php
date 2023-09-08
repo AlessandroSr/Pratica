@@ -15,10 +15,32 @@ class Sample
     public $valor;
     public $quantidadeItens;
     public $tipo;
+    public \DateTimeInterface $data;
 
     public function __construct()
     {
         $this->state = new InAnalysis();
+        $this->data = new \DateTimeImmutable();
+    }
+
+    public function setCode($code)
+    {
+        $this->code = $code;
+    }
+
+    public function setDescription($descricao)
+    {
+        $this->descricao = $descricao;
+    }
+
+    public function setValor($valor)
+    {
+        $this->valor = $valor;
+    }
+
+    public function setQuantidadeItens($quantidadeItens)
+    {
+        $this->quantidadeItens = $quantidadeItens;
     }
 
     public function setState(SampleState $state)
@@ -44,5 +66,20 @@ class Sample
     public function rejectSample()
     {
         $this->state->reject();
+    }
+
+    public function getInfo()
+    {
+        $info  = "Name: {$this->code}\n";
+        $info .= "Description: {$this->descricao}\n";
+        $info .= "valor: {$this->valor}\n";
+        $info .= "quantidadeItens: {$this->quantidadeItens}\n";
+
+        return $info;
+    }
+
+    public function __clone()
+    {
+        $this->data = new \DateTimeImmutable();
     }
 }

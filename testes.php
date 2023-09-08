@@ -11,6 +11,7 @@ use Alura\DesignPattern\Reports\PDFReport;
 use Alura\DesignPattern\Observers\ReportObserver;
 use Alura\DesignPattern\Reports\ReportGenerator;
 use Alura\DesignPattern\Sample;
+use Alura\DesignPattern\Sample\SampleBuilder;
 use Alura\DesignPattern\StatesAnalysis;
 use Alura\DesignPattern\StatesAnalysis\Approved;
 use Alura\DesignPattern\StatesAnalysis\Rejected;
@@ -45,8 +46,10 @@ $sample->descricao = "Descricao";
 $sample->valor = 5000;
 $sample->quantidadeItens = 20;
 $sample->tipo = "Nutricao Sample";
+$sample->data = new \DateTimeImmutable();
 $sample->analyzeSample(); // Estado Inicial
 
+$sample2 = clone $sample;
 echo '' . PHP_EOL;
 
 echo "Calculadora De Valor Tipo Nutricao: " . $calculadoraTipo->calcula($sample, new Nutricao()). PHP_EOL;
@@ -81,6 +84,7 @@ $sample2->descricao = "Descricao";
 $sample2->valor = 5000;
 $sample2->quantidadeItens = 20;
 $sample2->tipo = "Solos Sample";
+$sample->data = new \DateTimeImmutable();
 $sample2->analyzeSample(); // Estado Inicial
 
 echo '' . PHP_EOL;
@@ -122,3 +126,18 @@ $reportGenerator->generateReports();
 echo '' . PHP_EOL;
 
 // ==================================================================================== \\
+
+echo 'Clone' . PHP_EOL;
+var_dump($sample,$sample2);
+echo '' . PHP_EOL;
+
+echo 'Uso do padrão Builder' . PHP_EOL;
+$sampleBuilder = new SampleBuilder();
+$sampleB = $sampleBuilder
+    ->setCode('Product A')
+    ->setDescription('This is product A')
+    ->setValor(19.99)
+    ->setQuantidadeItens(5)
+    ->build();
+
+echo $sampleB->getInfo();
